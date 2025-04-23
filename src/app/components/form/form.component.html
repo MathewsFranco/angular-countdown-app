@@ -1,0 +1,8 @@
+<form>
+  <label>Event Title:</label>
+  <input [(ngModel)]="countdown.eventTitle" (ngModelChange)="countdown.setTitle($event)" name="title" />
+
+  <label>Event Date:</label>
+  <input type="datetime-local" [(ngModel)]="countdown.eventDate" [min]="minDate"
+    (ngModelChange)="countdown.setDate($event)" name="date" />
+</form>

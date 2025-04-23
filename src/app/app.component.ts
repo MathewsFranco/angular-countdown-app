@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, NgModule } from '@angular/core'
+
+import { CountdownComponent } from './components/countdown/countdown.component'
+import { EventTitleComponent } from './components/event-title/event-title.component'
+import { FormComponent } from './components/form/form.component'
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  imports: [CountdownComponent, EventTitleComponent, FormComponent],
+  template: '<app-event-title/><app-countdown/><app-countdown-form/>',
+  styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'countdown-app';
-}
+export class AppComponent {}
