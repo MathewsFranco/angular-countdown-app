@@ -3,7 +3,6 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Input,
   Renderer2,
 } from '@angular/core'
 
@@ -12,8 +11,6 @@ import {
   standalone: true,
 })
 export class FitTextDirective implements AfterViewInit {
-  @Input() maxFontSize?: number
-
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -21,7 +18,6 @@ export class FitTextDirective implements AfterViewInit {
 
   ngAfterViewInit() {
     this.resizeText()
-    this.renderer.setStyle(this.el.nativeElement, 'color', 'magenta')
   }
 
   @HostListener('window:resize')
@@ -42,11 +38,6 @@ export class FitTextDirective implements AfterViewInit {
 
       if (element.scrollWidth > containerWidth) {
         fontSize--
-        break
-      }
-
-      // If a maxFontSize is provided and we hit it, stop
-      if (this.maxFontSize && fontSize >= this.maxFontSize) {
         break
       }
 
