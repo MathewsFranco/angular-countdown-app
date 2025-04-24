@@ -1,8 +1,12 @@
-<form>
-  <label>Event Title:</label>
-  <input [(ngModel)]="countdown.eventTitle" (ngModelChange)="countdown.setTitle($event)" name="title" />
+<div class="container">
+  <div class="input-container">
+    <label>Title</label>
+    <input [(ngModel)]="countdown.eventTitle" (ngModelChange)="countdown.setTitle($event)" name="title" />
+  </div>
 
-  <label>Event Date:</label>
-  <input type="datetime-local" [(ngModel)]="countdown.eventDate" [min]="minDate"
-    (ngModelChange)="countdown.setDate($event)" name="date" />
-</form>
+  <div class="input-container" (click)="openPicker()">
+    <label>Date</label>
+    <input #dateInput type="datetime-local" [(ngModel)]="countdown.eventDate" [min]="minDate"
+      (ngModelChange)="countdown.setDate($event)" name="date" />
+  </div>
+</div>
