@@ -1,0 +1,8 @@
+@use '../../../styles.scss' as *;
+
+.title {
+  font-weight: 800;
+  color: $brand-purple;
+  line-height: 135%;
+  letter-spacing: -2%;
+}
