@@ -3,29 +3,48 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  Input,
+  NgZone,
+  OnChanges,
   Renderer2,
+  SimpleChanges,
 } from '@angular/core'
 
 @Directive({
   selector: '[appFitText]',
   standalone: true,
 })
-export class FitTextDirective implements AfterViewInit {
+export class FitTextDirective implements AfterViewInit, OnChanges {
+  @Input() triggerFit: any
+
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
+    private ngZone: NgZone,
   ) {}
 
   ngAfterViewInit() {
-    this.resizeText()
+    this.runResizeOutsideAngular()
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['triggerFit']) {
+      this.runResizeOutsideAngular()
+    }
   }
 
   @HostListener('window:resize')
   onResize() {
-    this.resizeText()
+    this.runResizeOutsideAngular()
   }
 
-  private resizeText() {
+  private runResizeOutsideAngular() {
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => this.resizeText())
+    })
+  }
+
+  public resizeText() {
     const element = this.el.nativeElement
     const parent = element.parentElement
     const containerWidth = parent.offsetWidth

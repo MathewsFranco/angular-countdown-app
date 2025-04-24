@@ -1,5 +1,5 @@
 <div class="text-container">
-  <div appFitText>
+  <div appFitText [triggerFit]="countdown.eventTitle() ">
     {{ timeLeft() }}
   </div>
 </div>

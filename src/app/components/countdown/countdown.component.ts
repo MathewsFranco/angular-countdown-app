@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core'
+import { Component, ViewChild, computed, inject, signal } from '@angular/core'
 
 import { CountdownStateService } from '../../services/countdown-state.service'
 import { FitTextDirective } from '../../directives/fit-text.directive'
@@ -12,9 +12,11 @@ import { FitTextDirective } from '../../directives/fit-text.directive'
 })
 export class CountdownComponent {
   countdown = inject(CountdownStateService)
+  @ViewChild('fitTextRef') fitTextDirective?: FitTextDirective
 
   private now = signal(new Date())
-  intervalId: ReturnType<typeof setInterval>
+  // would like to remove this type assertion 👀
+  intervalId!: ReturnType<typeof setInterval>
 
   timeLeft = computed(() => {
     const end = new Date(this.countdown.eventDate())
@@ -30,12 +32,15 @@ export class CountdownComponent {
     const minutes = Math.floor((totalSeconds % 3600) / 60)
     const seconds = totalSeconds % 60
 
-    return `${days} days, ${hours} h, ${minutes} m, ${seconds} s`
+    const pad = (n: number) => n.toString().padStart(2, '0')
+
+    return `${days} days, ${pad(hours)} h, ${pad(minutes)} m, ${pad(seconds)} s`
   })
 
-  constructor() {
+  ngAfterViewInit() {
     this.intervalId = setInterval(() => {
       this.now.set(new Date())
+      this.fitTextDirective?.resizeText()
     }, 1000)
   }
 
