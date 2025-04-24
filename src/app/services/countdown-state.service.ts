@@ -4,12 +4,7 @@ import { Injectable, effect, signal } from '@angular/core'
   providedIn: 'root',
 })
 export class CountdownStateService {
-  constructor() {
-    effect(() => {
-      console.log('💚[Signal] Title:', this.eventTitle())
-      console.log('🍳[Signal] Date:', this.eventDate())
-    })
-  }
+  constructor() {}
   eventTitle = signal(localStorage.getItem('eventTitle') || '')
   eventDate = signal(localStorage.getItem('eventDate') || '')
 
