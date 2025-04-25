@@ -24,7 +24,12 @@ export class FitTextDirective implements AfterViewInit, OnChanges {
   ) {}
 
   ngAfterViewInit() {
-    this.runResizeOutsideAngular()
+    this.ngZone.runOutsideAngular(() => {
+      // Double RAF gives the DOM time to stabilize on first load
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => this.resizeText())
+      })
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
