@@ -33,8 +33,9 @@ export class CountdownComponent {
     const seconds = totalSeconds % 60
 
     const pad = (n: number) => n.toString().padStart(2, '0')
+    const dayLabel = days === 1 ? 'day' : 'days'
 
-    return `${days} days, ${pad(hours)} h, ${pad(minutes)} m, ${pad(seconds)} s`
+    return `${days} ${dayLabel}, ${pad(hours)} h, ${pad(minutes)} m, ${pad(seconds)} s`
   })
 
   ngAfterViewInit() {
