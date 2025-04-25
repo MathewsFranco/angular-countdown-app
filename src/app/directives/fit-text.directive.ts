@@ -15,7 +15,7 @@ import {
   standalone: true,
 })
 export class FitTextDirective implements AfterViewInit, OnChanges {
-  @Input() triggerFit: any
+  @Input() triggerFit: unknown
 
   constructor(
     private el: ElementRef,
