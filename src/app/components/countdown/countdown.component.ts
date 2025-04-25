@@ -41,7 +41,6 @@ export class CountdownComponent {
   ngAfterViewInit() {
     this.intervalId = setInterval(() => {
       this.now.set(new Date())
-      this.fitTextDirective?.resizeText()
     }, 1000)
   }
 
