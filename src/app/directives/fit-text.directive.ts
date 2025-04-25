@@ -24,50 +24,41 @@ export class FitTextDirective implements AfterViewInit, OnChanges {
   ) {}
 
   ngAfterViewInit() {
-    this.ngZone.runOutsideAngular(() => {
-      // Double RAF gives the DOM time to stabilize on first load
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => this.resizeText())
-      })
-    })
+    this.scheduleResize(true)
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['triggerFit']) {
-      this.runResizeOutsideAngular()
+      this.scheduleResize()
     }
   }
 
   @HostListener('window:resize')
   onResize() {
-    this.runResizeOutsideAngular()
+    this.scheduleResize()
   }
 
-  private runResizeOutsideAngular() {
+  private scheduleResize(doubleRaf = false) {
     this.ngZone.runOutsideAngular(() => {
-      requestAnimationFrame(() => this.resizeText())
+      const raf = () => requestAnimationFrame(() => this.resizeText())
+      doubleRaf ? requestAnimationFrame(() => raf()) : raf()
     })
   }
 
-  public resizeText() {
-    const element = this.el.nativeElement
-    const parent = element.parentElement
-    const containerWidth = parent.offsetWidth
+  private resizeText() {
+    const el = this.el.nativeElement
+    const containerWidth = el.parentElement.offsetWidth
+
+    this.renderer.setStyle(el, 'white-space', 'nowrap')
 
     let fontSize = 1
-    this.renderer.setStyle(element, 'white-space', 'nowrap')
-
     while (true) {
-      this.renderer.setStyle(element, 'font-size', `${fontSize}px`)
-
-      if (element.scrollWidth > containerWidth) {
-        fontSize--
+      this.renderer.setStyle(el, 'font-size', `${fontSize}px`)
+      if (el.scrollWidth > containerWidth) {
+        this.renderer.setStyle(el, 'font-size', `${fontSize - 1}px`)
         break
       }
-
       fontSize++
     }
-
-    this.renderer.setStyle(element, 'font-size', `${fontSize}px`)
   }
 }
