@@ -1,5 +1,9 @@
 # Countdown App
 
+NOTES:
+- I noticed that on first load the app renders with scroll  and that is related to the way I'm loading the font (installed with npm). In a real project I would either have the font locall or imported in a different way to avoid it.
+- The spacing values on Figma were a bit uncertain for me, I would also ask for further informationa about them. 
+
 **Link:** <https://mathewsfranco.github.io/angular-countdown-app/>
 
 A countdown timer application built with **Angular**, **TypeScript**, and **SCSS**. This app allows users to define an event title and an end date, and it displays a dynamic countdown (Days, Hours, Minutes, Seconds) until the event.
